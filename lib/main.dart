@@ -22,8 +22,13 @@ void main() async {
       await windowManager.setResizable(false); // 禁止调整窗口大小
     });
   }
-
   runApp(myApp());
+}
+
+void initTheme(){
+  if(Utils.theme == 1){
+
+  }
 }
 
 class myApp extends StatelessWidget {
