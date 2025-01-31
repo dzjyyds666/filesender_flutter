@@ -244,38 +244,43 @@ class _PulsingButtonState extends State<PulsingButton>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: _animation,
-        builder: (context, child) {
-          return Transform.scale(
-              scale: _animation.value,
-              child: GestureDetector(
-                child: Container(
-                  width: 100.w,
-                  height: 100.w,
-                  decoration: BoxDecoration(
-                      color: isPressed
-                          ? Mycolor.SecondaryColor
-                          : Mycolor.PrimaryColor,
-                      borderRadius: BorderRadius.circular(50.w)),
-                  child: Center(
-                    child: Text(
-                      '搜索',
-                      style: TextStyle(
-                          color: isPressed
-                              ? Mycolor.TextSecondaryColor
-                              : Mycolor.TextMianColor,
-                          fontWeight: FontWeight.w900),
+    return Container(
+      child: AnimatedBuilder(
+          animation: _animation,
+          builder: (context, child) {
+            return Transform.scale(
+                scale: _animation.value,
+                child: GestureDetector(
+                  child: Container(
+                    width: 100.w,
+                    height: 100.w,
+                    decoration: BoxDecoration(
+                        color: isPressed
+                            ? Mycolor.SecondaryColor
+                            : Mycolor.PrimaryColor,
+                        borderRadius: BorderRadius.circular(50.w)),
+                    child: Center(
+                      child: Text(
+                        '搜索',
+                        style: TextStyle(
+                            color: isPressed
+                                ? Mycolor.TextSecondaryColor
+                                : Mycolor.TextMianColor,
+                            fontWeight: FontWeight.w900),
+                      ),
                     ),
                   ),
-                ),
-                onTap: () {
-                  widget.searchDevice();
-                  setState(() {
-                    isPressed = !isPressed;
-                  });
-                },
-              ));
-        });
+                  onTap: () {
+                    widget.searchDevice();
+                    setState(() {
+                      isPressed = !isPressed;
+                    });
+                  },
+                ));
+          }),
+      decoration: BoxDecoration(
+        color: Mycolor.BackgroundColor,
+      ),
+    );
   }
 }

@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  final Function(int theme,CustomTheme? customTheme) changeTheme;
+
+  HomePage({super.key, required this.changeTheme});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -23,17 +25,11 @@ class _HomePageState extends State<HomePage> {
       return MenuList();
     } else if (selectButtombar == 2) {
       return SettingPage(
-        changeTheme: changeColor,
+        changeTheme: widget.changeTheme,
       );
     } else {
       return DeviceFound();
     }
-  }
-
-  void changeColor() {
-    setState(() {
-      Mycolor.PrimaryColor = Colors.red;
-    });
   }
 
   @override
@@ -52,19 +48,19 @@ class _HomePageState extends State<HomePage> {
             Icons.home_filled,
             size: 20,
             color:
-                selectButtombar == 0 ? Mycolor.BackgroundColor : Colors.black,
+                selectButtombar == 0 ? Colors.white : Colors.black,
           ),
           Icon(
             Icons.list,
             size: 20,
             color:
-                selectButtombar == 1 ? Mycolor.BackgroundColor : Colors.black,
+                selectButtombar == 1 ? Colors.white : Colors.black,
           ),
           Icon(
             Icons.settings,
             size: 20,
             color:
-                selectButtombar == 2 ? Mycolor.BackgroundColor : Colors.black,
+                selectButtombar == 2 ? Colors.white : Colors.black,
           )
         ],
         onTap: (index) {

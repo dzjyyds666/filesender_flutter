@@ -18,12 +18,16 @@ dependencies:
   flutter_launcher_icons: ^0.14.2
   curved_navigation_bar: ^1.0.6
 
+  # 缓存
+  shared_preferences: ^2.5.1
+
+  flutter_colorpicker: ^1.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^5.0.0
-
 
 flutter:
 

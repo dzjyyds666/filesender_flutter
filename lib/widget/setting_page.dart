@@ -1,3 +1,4 @@
+import 'package:file_sender/page/setting_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../utils.dart';
 
 class SettingPage extends StatefulWidget {
-  final Function() changeTheme;
+  final Function(int theme, CustomTheme? customTheme) changeTheme;
 
   SettingPage({required this.changeTheme, super.key});
 
@@ -37,6 +38,11 @@ class _SettingPageState extends State<SettingPage> {
           Utils.GreyDivider(1),
           settingsItem("外观设置", Icons.arrow_right, () {
             // 设置主题切换
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        SettingTheme(changeTheme: widget.changeTheme)));
           }),
           Utils.GreyDivider(1),
           settingsItem("关于", Icons.arrow_right, () {}),
