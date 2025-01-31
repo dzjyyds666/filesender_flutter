@@ -8,6 +8,16 @@ class DeviceFound extends StatefulWidget {
 }
 
 class _DeviceFoundState extends State<DeviceFound> {
+  bool isPressed = false;
+
+  late List<Widget> actions;
+
+  @override
+  void initState() {
+    super.initState();
+    getActions();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,23 +30,17 @@ class _DeviceFoundState extends State<DeviceFound> {
                 height: 20.h,
               ),
               Spacer(),
-              Icon(
-                Icons.search,
-                size: 20,
-              ),
-              SizedBox(
-                width: 20.w,
-              ),
-              Icon(
-                Icons.camera_alt_outlined,
-                size: 20,
-              )
+              for (var action in actions) action
             ],
           ),
         ),
         Expanded(
             child: Center(
-          child: PulsingButton(searchDevice: searchDevice,),
+          child: isPressed == false
+              ? PulsingButton(
+                  searchDevice: searchDevice,
+                )
+              : DeviceList(),
         ))
       ],
     );
@@ -44,6 +48,164 @@ class _DeviceFoundState extends State<DeviceFound> {
 
   void searchDevice() {
     print('searchDevice');
+    setState(() {
+      isPressed = true;
+      getActions();
+    });
+  }
+
+  get scanIcon => GestureDetector(
+        onTap: () {
+          // todo 调用相机进行扫码
+        },
+        child: Icon(
+          Icons.camera_alt_outlined,
+          size: 20,
+        ),
+      );
+
+  get searchIcon => GestureDetector(
+        onTap: () {
+          // todo 对检测出来的设备进行搜索
+        },
+        child: Icon(
+          Icons.search,
+          size: 20,
+        ),
+      );
+
+  get refreshIcon => GestureDetector(
+        onTap: () {
+          // todo 刷新列表
+        },
+        child: Icon(
+          Icons.refresh,
+          size: 20,
+        ),
+      );
+
+  get resetIcon => GestureDetector(
+        onTap: () {
+          setState(() {
+            isPressed = false;
+            getActions();
+          });
+        },
+        child: Icon(
+          Icons.logout,
+          size: 20,
+        ),
+      );
+
+  void getActions() {
+    if (isPressed == false) {
+      setState(() {
+        actions = [scanIcon];
+      });
+    } else {
+      setState(() {
+        actions = [
+          searchIcon,
+          SizedBox(
+            width: 10.w,
+          ),
+          refreshIcon,
+          SizedBox(
+            width: 10.w,
+          ),
+          resetIcon
+        ];
+      });
+    }
+  }
+}
+
+class DeviceList extends StatefulWidget {
+  const DeviceList({
+    super.key,
+  });
+
+  @override
+  State<StatefulWidget> createState() => _DeviceListState();
+}
+
+class _DeviceListState extends State<DeviceList> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: 375.w,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 20.w, bottom: 20.h),
+              child: Text(
+                "设备列表",
+                style: TextStyle(fontSize: 20.sp, color: Mycolor.TextMianColor),
+              ),
+            ),
+            Expanded(
+                child: Container(
+              decoration: BoxDecoration(color: Mycolor.GreyBackgroundColor),
+              child: ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      width: 375.w,
+                      height: 100.h,
+                      decoration: BoxDecoration(color: Colors.white),
+                      margin: EdgeInsets.only(top: 10.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            width: 235.w,
+                            height: 100.h,
+                            decoration: BoxDecoration(color: Colors.white),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'device_name',
+                                  style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w900,
+                                      color: Mycolor.TextMianColor),
+                                ),
+                                Text(
+                                  'device_ip',
+                                  style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: Mycolor.TextSecondaryColor),
+                                )
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Text(
+                              '连接',
+                              style: TextStyle(
+                                  color: Mycolor.PrimaryColor,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w900),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Icon(
+                              Icons.more_vert,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+            ))
+          ],
+        ));
   }
 }
 
@@ -92,10 +254,19 @@ class _PulsingButtonState extends State<PulsingButton>
                   width: 100.w,
                   height: 100.w,
                   decoration: BoxDecoration(
-                      color: isPressed ? Mycolor.SecondaryColor : Mycolor.PrimaryColor,
+                      color: isPressed
+                          ? Mycolor.SecondaryColor
+                          : Mycolor.PrimaryColor,
                       borderRadius: BorderRadius.circular(50.w)),
                   child: Center(
-                    child: Text('搜索',style: TextStyle(color: isPressed ? Mycolor.TextSecondaryColor : Mycolor.TextMianColor,fontWeight: FontWeight.w900),),
+                    child: Text(
+                      '搜索',
+                      style: TextStyle(
+                          color: isPressed
+                              ? Mycolor.TextSecondaryColor
+                              : Mycolor.TextMianColor,
+                          fontWeight: FontWeight.w900),
+                    ),
                   ),
                 ),
                 onTap: () {
