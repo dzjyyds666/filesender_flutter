@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: CurvedNavigationBar(
         color: Mycolor.PrimaryColor,
         backgroundColor: Mycolor.BackgroundColor,
-        buttonBackgroundColor: Mycolor.PrimaryColor,
+        buttonBackgroundColor: Mycolor.SecondaryColor,
         animationDuration: Duration(milliseconds: 200),
         height: 60.h,
         items: <Widget>[

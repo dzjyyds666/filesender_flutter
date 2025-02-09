@@ -1,3 +1,4 @@
+import 'package:file_sender/page/setting_about.dart';
 import 'package:file_sender/page/setting_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,10 @@ class _SettingPageState extends State<SettingPage> {
                         SettingTheme(changeTheme: widget.changeTheme)));
           }),
           Utils.GreyDivider(1),
-          settingsItem("关于", Icons.arrow_right, () {}),
+          settingsItem("关于", Icons.arrow_right, () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SettingAbout()));
+          }),
         ],
       ),
     );

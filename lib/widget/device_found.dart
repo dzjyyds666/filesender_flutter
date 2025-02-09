@@ -1,6 +1,12 @@
+import 'dart:ffi';
+
+import 'package:file_sender/rpc/client/client.dart';
 import 'package:file_sender/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:fixnum/fixnum.dart';
+import '../rpc/protos/device_found_server.pb.dart';
 
 class DeviceFound extends StatefulWidget {
   @override
@@ -46,12 +52,23 @@ class _DeviceFoundState extends State<DeviceFound> {
     );
   }
 
-  void searchDevice() {
-    print('searchDevice');
-    setState(() {
-      isPressed = true;
-      getActions();
-    });
+  void searchDevice() async {
+    // 调用grpc服务
+    StartDeviceFoundResponse response = await GrpcClient.client
+        .startDeviceFoundServer(StartDeviceFoundRequest(
+            port: Int64(50000), sendPort: Int64(50005)));
+
+    if (response.success) {
+      setState(() {
+        isPressed = true;
+        getActions();
+      });
+    } else {
+      setState(() {
+        isPressed = false;
+        getActions();
+      });
+    }
   }
 
   get scanIcon => GestureDetector(
@@ -61,6 +78,7 @@ class _DeviceFoundState extends State<DeviceFound> {
         child: Icon(
           Icons.camera_alt_outlined,
           size: 20,
+          color: Mycolor.TextMianColor,
         ),
       );
 
@@ -71,6 +89,7 @@ class _DeviceFoundState extends State<DeviceFound> {
         child: Icon(
           Icons.search,
           size: 20,
+          color: Mycolor.TextMianColor,
         ),
       );
 
@@ -81,6 +100,7 @@ class _DeviceFoundState extends State<DeviceFound> {
         child: Icon(
           Icons.refresh,
           size: 20,
+          color: Mycolor.TextMianColor,
         ),
       );
 
@@ -94,6 +114,7 @@ class _DeviceFoundState extends State<DeviceFound> {
         child: Icon(
           Icons.logout,
           size: 20,
+          color: Mycolor.TextMianColor,
         ),
       );
 
@@ -153,7 +174,7 @@ class _DeviceListState extends State<DeviceList> {
                     return Container(
                       width: 375.w,
                       height: 100.h,
-                      decoration: BoxDecoration(color: Colors.white),
+                      decoration: BoxDecoration(color: Mycolor.BackgroundColor),
                       margin: EdgeInsets.only(top: 10.h),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -161,7 +182,8 @@ class _DeviceListState extends State<DeviceList> {
                           Container(
                             width: 235.w,
                             height: 100.h,
-                            decoration: BoxDecoration(color: Colors.white),
+                            decoration:
+                                BoxDecoration(color: Mycolor.BackgroundColor),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -197,6 +219,8 @@ class _DeviceListState extends State<DeviceList> {
                             onTap: () {},
                             child: Icon(
                               Icons.more_vert,
+                              size: 16.sp,
+                              color: Mycolor.TextMianColor,
                             ),
                           ),
                         ],
@@ -255,9 +279,7 @@ class _PulsingButtonState extends State<PulsingButton>
                     width: 100.w,
                     height: 100.w,
                     decoration: BoxDecoration(
-                        color: isPressed
-                            ? Mycolor.SecondaryColor
-                            : Mycolor.PrimaryColor,
+                        color: Mycolor.SecondaryColor,
                         borderRadius: BorderRadius.circular(50.w)),
                     child: Center(
                       child: Text(

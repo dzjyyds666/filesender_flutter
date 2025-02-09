@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:file_sender/page/home_page.dart';
+import 'package:file_sender/rpc/client/client.dart';
 import 'package:file_sender/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,6 +32,9 @@ void main() async {
   } else if (theme == 3) {
     //todo 从文件中读取主题配置文件
   }
+
+  // 初始化grpc客户端
+  await GrpcClient.init();
 
   runApp(myApp(
     theme: theme,
